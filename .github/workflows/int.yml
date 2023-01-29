@@ -1,0 +1,83 @@
+name: ci/cd
+on:
+  workflow_dispatch
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.read_current_version.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: 'yarn'
+
+      - name: Install
+        run: yarn install
+
+      - name: test
+        run: yarn test
+
+      - name: Read version
+        id: read_current_version
+        run: |
+          echo "::set-output name=version::$(cat version.txt)"
+
+      - name: Verify version
+        uses: devecorsoft/verify-version@v1.0.5
+        with:
+          current: ${{ steps.read_current_version.outputs.version }}
+
+  integrate:
+    needs: ["build"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: 'yarn'
+
+      - name: Install
+        run: yarn install
+
+      - name: Configure
+        run: |
+          echo "{\"scriptId\":\"${{ secrets.SCRIPT_ID }}\",\"rootDir\":\"$PWD/dist\"}" > .clasp.json
+          echo '${{ secrets.CREDENTIAL }}' > ~/.clasprc.json
+          echo '${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}' > serviceAccountCredentials.json
+
+      - name: Tagging
+        continue-on-error: true
+        run: |
+          git config --local user.name "bot"
+          git config --local user.email "bot@github.com"
+          git tag ${{ needs.build.outputs.version }}
+          git push origin --tags
+
+      - name: Deploy to Int
+        continue-on-error: true
+        run: |
+          yarn push
+          npx clasp undeploy $(npx clasp deployments | head -n 3 | tail -n 1 | awk '{split($0,array," "); print array[2]}')
+          npx clasp version ${{ needs.build.outputs.version }}
+          npx clasp deploy -V $(npx clasp versions | tail -n 1 | awk '{split($0,array," "); print array[1]}') -d "$(git log -1 --pretty=%B)"
+
+      - name: Remove credentials
+        run: |
+          rm .clasp.json
+          rm ~/.clasprc.json
+          rm serviceAccountCredentials.json

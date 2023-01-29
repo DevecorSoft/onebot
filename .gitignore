@@ -1,0 +1,9 @@
+/node_modules/
+/dist/
+/.idea/
+/coverage/
+.DS_Store
+.clasp.json
+serviceAccountCredentials.json
+yarn-error.log
+.yarnrc.yml

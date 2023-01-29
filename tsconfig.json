@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "module": "commonjs",
+    "outDir": "./dist/compile/",
+    "strict": true,
+    "baseUrl": "./",
+    "lib": ["es6"],
+    "paths": {
+      "@/*": ["src/*"],
+    }
+  },
+  "include": ["./src/**/*", "./test/**/*"]
+}
