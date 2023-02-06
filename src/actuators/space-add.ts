@@ -1,17 +1,14 @@
 import { SpaceRepository } from '@/repositories/spaceRepository'
-import { Context, Actable } from './iocContainer'
+import { Actable } from '@/actuators/iocActuator'
 
 export interface AddSpaceDeps {
   readonly spaceRepository: Pick<SpaceRepository, 'push'>
 }
 
-const AddSpaceAction: Actable<AddSpaceDeps, void> = function (spaceName: string) {
-    this.spaceRepository.push(spaceName)
+export interface AddSpace {
+  (spaceName: string): void
 }
 
-export type AddSpaceActuator = Context<AddSpaceDeps, void>
-
-export const createAddSpaceActuator = (deps: AddSpaceDeps): AddSpaceActuator => ({
-  action: AddSpaceAction,
-  deps,
-})
+export const addSpace: Actable<AddSpaceDeps, AddSpace> = function (spaceName) {
+  this.spaceRepository.push(spaceName)
+}
