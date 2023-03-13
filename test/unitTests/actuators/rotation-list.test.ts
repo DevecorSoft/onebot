@@ -1,5 +1,5 @@
-import { createListRotationActuator } from '@/actuators/rotation-list'
-import { executeActuator } from '@/actuators/iocContainer'
+import { listRotation } from '@/actuators/rotation-list'
+import { createActuator } from '@/actuators/iocActuator'
 
 describe('When user try to check how many rotation exists', () => {
   it('Then should list current rotations', () => {
@@ -15,7 +15,7 @@ describe('When user try to check how many rotation exists', () => {
       get: listRotations,
     }
 
-    const msg = executeActuator(createListRotationActuator({ rotationRepository }))
+    const msg = createActuator(listRotation, { rotationRepository }).act('space1')
 
     expect(listRotations).toBeCalledTimes(1)
     expect(msg).toEqual('[c8932a71-a3fc-44ea-b4f7-fffb017b39f1] The title "1-5 *" "Jon A, Someone B, Devecor C"')
@@ -27,7 +27,7 @@ describe('When user try to check how many rotation exists', () => {
       get: listRotations,
     }
 
-    const msg = executeActuator(createListRotationActuator({ rotationRepository }))
+    const msg = createActuator(listRotation, { rotationRepository }).act('space1')
 
     expect(listRotations).toBeCalledTimes(1)
     expect(msg).toEqual('Currently, there is *no rotation configured* in this space.')

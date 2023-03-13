@@ -1,4 +1,5 @@
-import { createListRotationActuator, ListRotationActuator } from '@/actuators/rotation-list'
-import { rotationRepository } from './rotationRepository'
+import { createActuator } from '@/actuators/iocActuator'
+import { listRotation } from '@/actuators/rotation-list'
+import { rotationRepository } from '@/factories/rotationRepository'
 
-export const stdListRotationActuator: ListRotationActuator = createListRotationActuator({ rotationRepository })
+export const stdListRotationActuator = createActuator(listRotation, { rotationRepository })

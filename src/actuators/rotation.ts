@@ -12,7 +12,7 @@ export interface RotationDeps {
 
 const RotationAction: Actable<RotationDeps> = function (...args) {
   if (args.length === 2) {
-    return executeActuator(stdListRotationActuator, args[0])
+    return stdListRotationActuator.act(args[0])
   } else {
     switch (args[0]) {
       case 'add':

@@ -1,13 +1,16 @@
 import { RotationRepository } from '@/repositories'
-import { Context, Actable } from './iocContainer'
+import { Actable } from '@/actuators/iocActuator'
 
 export interface ListRotationDeps {
   readonly rotationRepository: Pick<RotationRepository, 'get'>
 }
 
-const ListRotationAction: Actable<ListRotationDeps> = function (...args) {
-  const [space_name] = args
-  const rotationItems = this.rotationRepository.get(space_name)
+export interface ListRotation {
+  (spaceName: string): string
+}
+
+export const listRotation: Actable<ListRotationDeps, ListRotation> = function (spaceName) {
+  const rotationItems = this.rotationRepository.get(spaceName)
   if (rotationItems.length) {
     return rotationItems
       .map((item) => ({ ...item, participants: item.participants.join(', ') }))
@@ -17,10 +20,3 @@ const ListRotationAction: Actable<ListRotationDeps> = function (...args) {
     return 'Currently, there is *no rotation configured* in this space.'
   }
 }
-
-export type ListRotationActuator = Context<ListRotationDeps>
-
-export const createListRotationActuator = (deps: ListRotationDeps): ListRotationActuator => ({
-  action: ListRotationAction,
-  deps,
-})
