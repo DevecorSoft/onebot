@@ -3,14 +3,18 @@ import { stdDefaultRotationActuator } from '@/factories/rotation-default'
 import { stdDeleteRotationActuator } from '@/factories/rotation-delete'
 import { stdListRotationActuator } from '@/factories/rotation-list'
 import { stdSkipRotationActuator } from '@/factories/rotation-skip'
-import { Actable, Context } from './iocContainer'
 import { LengthValidator } from '@/actuators/validator'
+import { Actable } from '@/actuators/iocActuator'
 
 export interface RotationDeps {
   readonly lengthValidator: LengthValidator
 }
 
-const RotationAction: Actable<RotationDeps> = function (...args) {
+export interface Rotation {
+  (...args: string[]): string
+}
+
+export const rotation: Actable<RotationDeps, Rotation> = function (...args) {
   if (args.length === 2) {
     return stdListRotationActuator.act(args[0])
   } else {
@@ -36,10 +40,3 @@ const RotationAction: Actable<RotationDeps> = function (...args) {
     }
   }
 }
-
-export type RotationActuator = Context<RotationDeps>
-
-export const createRotationActuator = (deps: RotationDeps): RotationActuator => ({
-  action: RotationAction,
-  deps,
-})

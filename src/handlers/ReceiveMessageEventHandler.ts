@@ -1,7 +1,6 @@
-import { TextMessage, Command } from './types'
+import { Command, TextMessage } from './types'
 import stringArgv from 'string-argv'
 import { HELP_MSG } from './helpMsg'
-import { executeActuator } from '@/actuators/iocContainer'
 import { stdRotationActuator } from '@/factories/rotation'
 
 export interface MessageEvent {
@@ -27,7 +26,7 @@ export const receiveMessageEventHandler = (event: MessageEvent): TextMessage => 
   const command = position_args[0]
   switch (command) {
     case Command.rotations:
-      return { text: executeActuator(stdRotationActuator, ...position_args.slice(1), event.message.space.name, event.message.thread.name) }
+      return { text: stdRotationActuator.act(...position_args.slice(1), event.message.space.name, event.message.thread.name) }
     case Command.help:
       return { text: HELP_MSG }
     default:
