@@ -1,41 +1,12 @@
-import { executeActuator } from '@/actuators/iocContainer'
-import { createSkipRotationActuator } from '@/actuators/rotation-skip'
+import { createActuator } from '@/actuators/iocActuator'
+import { skipRotation } from '@/actuators/rotation-skip'
 
 describe('Given user have rotations added', () => {
   describe('When user want to adjust specific rotation by skip subcommand', () => {
-    it('Then should validate parameters first', () => {
-      const args = ['0dd5aba3-6234-417a-87c4-2138e78556cd', '2']
-      const lengthValidator = jest.fn().mockReturnValueOnce({
-        validate: () => ({
-          execute: jest.fn(),
-        }),
-      })
-      const getByRotationId = jest.fn().mockReturnValueOnce({
-        id: '0dd5aba3-6234-417a-87c4-2138e78556cd',
-        title: 'The title',
-        timer: '1-5 *',
-        participants: ['devecor', 'someone', 'Mike', 'Bob'],
-      })
-
-      executeActuator(
-        createSkipRotationActuator({
-          rotationRepository: { getById: getByRotationId, update: jest.fn() },
-          lengthValidator,
-        }),
-        ...args
-      )
-
-      expect(lengthValidator).toBeCalledTimes(1)
-      expect(lengthValidator).toBeCalledWith([2, 3], ['0dd5aba3-6234-417a-87c4-2138e78556cd', '2'])
-    })
-
     it('Then should skip participants', () => {
-      const args = ['0dd5aba3-6234-417a-87c4-2138e78556cd', '2', 'space name 5231']
-      const lengthValidator = jest.fn().mockReturnValueOnce({
-        validate: () => ({
-          execute: (target: () => void) => target(),
-        }),
-      })
+      const spaceName = 'space name 5231'
+      const id = '0dd5aba3-6234-417a-87c4-2138e78556cd'
+      const n = '2'
 
       const getByRotationId = jest.fn().mockReturnValueOnce({
         id: '0dd5aba3-6234-417a-87c4-2138e78556cd',
@@ -44,13 +15,10 @@ describe('Given user have rotations added', () => {
         participants: ['devecor', 'someone', 'Mike', 'Bob'],
       })
       const updateRotation = jest.fn()
-      const res = executeActuator(
-        createSkipRotationActuator({
+      const res = createActuator(skipRotation, {
           rotationRepository: { getById: getByRotationId, update: updateRotation },
-          lengthValidator,
-        }),
-        ...args
-      )
+        }).act(spaceName, id, n)
+
 
       expect(getByRotationId).toBeCalledTimes(1)
       expect(getByRotationId).toBeCalledWith('0dd5aba3-6234-417a-87c4-2138e78556cd', 'space name 5231')
@@ -68,12 +36,8 @@ describe('Given user have rotations added', () => {
     })
 
     it('Then should skip one participant by default', () => {
-      const args = ['0dd5aba3-6234-417a-87c4-2138e78556cd', 'space name 7341']
-      const lengthValidator = jest.fn().mockReturnValueOnce({
-        validate: () => ({
-          execute: (target: () => void) => target(),
-        }),
-      })
+      const spaceName = 'space name 7341'
+      const id = '0dd5aba3-6234-417a-87c4-2138e78556cd'
 
       const getByRotationId = jest.fn().mockReturnValueOnce({
         id: '0dd5aba3-6234-417a-87c4-2138e78556cd',
@@ -82,13 +46,9 @@ describe('Given user have rotations added', () => {
         participants: ['devecor', 'someone', 'Mike', 'Bob'],
       })
       const updateRotation = jest.fn()
-      const res = executeActuator(
-        createSkipRotationActuator({
-          rotationRepository: { getById: getByRotationId, update: updateRotation },
-          lengthValidator,
-        }),
-        ...args
-      )
+      const res = createActuator(skipRotation, {
+        rotationRepository: { getById: getByRotationId, update: updateRotation },
+      }).act(spaceName, id)
 
       expect(getByRotationId).toBeCalledTimes(1)
       expect(getByRotationId).toBeCalledWith('0dd5aba3-6234-417a-87c4-2138e78556cd', 'space name 7341')
@@ -106,22 +66,14 @@ describe('Given user have rotations added', () => {
     })
 
     it('Then should tell user the rotation is not existing', () => {
-      const args = ['0dd5aba3-6234-417a-87c4-2138e78556cd', 'space name 1234']
-      const lengthValidator = jest.fn().mockReturnValueOnce({
-        validate: () => ({
-          execute: (target: () => void) => target(),
-        }),
-      })
+      const spaceName = 'space name 1234'
+      const id = '0dd5aba3-6234-417a-87c4-2138e78556cd'
 
       const getByRotationId = jest.fn().mockReturnValueOnce(null)
       const updateRotation = jest.fn()
-      const res = executeActuator(
-        createSkipRotationActuator({
-          rotationRepository: { getById: getByRotationId, update: updateRotation },
-          lengthValidator,
-        }),
-        ...args
-      )
+      const res = createActuator(skipRotation, {
+        rotationRepository: { getById: getByRotationId, update: updateRotation },
+      }).act(spaceName, id)
 
       expect(getByRotationId).toBeCalledTimes(1)
       expect(getByRotationId).toBeCalledWith('0dd5aba3-6234-417a-87c4-2138e78556cd', 'space name 1234')

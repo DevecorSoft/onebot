@@ -1,8 +1,7 @@
-import { createSkipRotationActuator, SkipRotationActuator } from '@/actuators/rotation-skip'
-import { LengthValidator } from '@/actuators/validator'
 import { rotationRepository } from './rotationRepository'
+import { skipRotation } from '@/actuators/rotation-skip'
+import { createActuator } from '@/actuators/iocActuator'
 
-export const stdSkipRotationActuator: SkipRotationActuator = createSkipRotationActuator({
-  rotationRepository,
-  lengthValidator: LengthValidator,
+export const stdSkipRotationActuator = createActuator(skipRotation, {
+  rotationRepository
 })
