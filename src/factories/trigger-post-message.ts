@@ -1,4 +1,4 @@
-import { createActuator } from '@/actuators/iocContainer'
+import { createActuator } from '@/actuators/iocActuator'
 import { postMessage } from '@/actuators/trigger-post-message'
 
 export const stdPostMessageActuator = createActuator(postMessage, {
