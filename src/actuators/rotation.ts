@@ -3,7 +3,7 @@ import { stdDefaultRotationActuator } from '@/factories/rotation-default'
 import { stdDeleteRotationActuator } from '@/factories/rotation-delete'
 import { stdListRotationActuator } from '@/factories/rotation-list'
 import { stdSkipRotationActuator } from '@/factories/rotation-skip'
-import { Context, executeActuator, Actable } from './iocContainer'
+import { Actable, Context } from './iocContainer'
 import { LengthValidator } from '@/actuators/validator'
 
 export interface RotationDeps {
@@ -29,7 +29,8 @@ const RotationAction: Actable<RotationDeps> = function (...args) {
         .validate()
         .execute(() => '')
     } else if (args[0] === 'delete') {
-      return executeActuator(stdDeleteRotationActuator, ...args.slice(1, -1))
+      const [id, spaceName] = args.slice(1, -1)
+      return stdDeleteRotationActuator.act(id, spaceName)
     } else {
       return stdDefaultRotationActuator.act(...args as [string])
     }

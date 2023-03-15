@@ -1,8 +1,9 @@
-import { createDeleteRotationActuator, DeleteRotationActuator } from '@/actuators/rotation-delete'
 import { LengthValidator } from '@/actuators/validator'
 import { rotationRepository } from './rotationRepository'
+import { createActuator } from '@/actuators/iocActuator'
+import { deleteRotation } from '@/actuators/rotation-delete'
 
-export const stdDeleteRotationActuator: DeleteRotationActuator = createDeleteRotationActuator({
+export const stdDeleteRotationActuator = createActuator(deleteRotation, {
   rotationRepository,
   lengthValidator: LengthValidator,
 })
