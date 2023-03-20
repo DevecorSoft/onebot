@@ -11,4 +11,5 @@ classDiagram
   message "*" --o "1" space
   message "*" --o "1" thread
   rotation --* onebot
+  participant "*" --* "1" rotation
 ```
