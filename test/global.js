@@ -22,6 +22,7 @@ module.exports = {
         setPropertyStore: () => service,
         setScope: () => service,
         getAccessToken: () => service,
+        hasAccess: () => true
       }
       return service
     },
