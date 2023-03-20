@@ -1,6 +1,14 @@
 name: ci/cd
 on:
-  workflow_dispatch
+  push:
+    branches: [ main ]
+    paths:
+      - "src/**"
+      - "test/**"
+      - "package.json"
+      - "yarn.lock"
+      - "version.txt"
+  workflow_dispatch:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
