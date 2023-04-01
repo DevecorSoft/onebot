@@ -6,10 +6,9 @@ classDiagram
   thread "*" --* "1" space
   member "*" --o "1" space
   member "*" --o "1" thread
-  member ..|> onebot
   member "1" --o "*" message
+  participant ..|> member
   message "*" --o "1" space
   message "*" --o "1" thread
-  rotation --* onebot
   participant "*" --* "1" rotation
 ```
