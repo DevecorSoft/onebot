@@ -1,15 +1,14 @@
 {
-  "timeZone": "Asia/Shanghai",
-  "runtimeVersion": "V8",
+  "timeZone": "America/New_York",
   "dependencies": {
     "libraries": [
       {
         "userSymbol": "OAuth2",
-        "version": "42",
+        "version": "43",
         "libraryId": "1B7FSrk5Zi6L1rSxxTDgDEUsPzlukDsi4KGuTMorsTQHhGBzBkMun4iDF"
       }
     ]
   },
-  "chat": {},
-  "exceptionLogging": "STACKDRIVER"
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8"
 }
