@@ -1,4 +1,4 @@
-import { createRotationRepository, Deps, RotationItem } from '@/repositories'
+import { createRotationRepository, Deps, RotationItem } from '@/script-properties'
 
 describe('Given user try to add a rotation', () => {
   describe('When required parameters are fulfilled', () => {

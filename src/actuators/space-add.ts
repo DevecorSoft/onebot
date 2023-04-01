@@ -1,4 +1,4 @@
-import { SpaceRepository } from '@/repositories/spaceRepository'
+import { SpaceRepository } from '@/script-properties/spaceRepository'
 import { Actable } from '@/actuators/iocActuator'
 
 export interface AddSpaceDeps {

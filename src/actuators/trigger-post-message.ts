@@ -1,4 +1,4 @@
-import { SpacesMessage } from '@/handlers/types'
+import { SpacesMessage } from '@/google-chat/types'
 import { Actable } from '@/actuators/iocActuator'
 
 export interface PostMessageDeps {

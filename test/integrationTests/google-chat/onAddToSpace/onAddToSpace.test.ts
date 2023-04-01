@@ -1,4 +1,4 @@
-import { addToSpaceEventHandler, SpaceEvent } from '@/handlers'
+import { addToSpaceEventHandler, SpaceEvent } from '@/google-chat'
 
 beforeEach(() => {
   PropertiesService.getScriptProperties().setProperty('trigger_list', '')

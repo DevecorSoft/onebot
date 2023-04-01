@@ -1,4 +1,4 @@
-import { RotationRepository } from '@/repositories'
+import { RotationRepository } from '@/script-properties'
 import { Actable } from '@/actuators/iocActuator'
 
 export interface DeleteRotationDeps {

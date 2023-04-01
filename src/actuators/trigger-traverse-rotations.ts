@@ -1,5 +1,5 @@
 import { Actable, Actuator } from '@/actuators/iocActuator'
-import { RotationRepository, SpaceRepository } from '@/repositories'
+import { RotationRepository, SpaceRepository } from '@/script-properties'
 import { PostMessage } from '@/actuators/trigger-post-message'
 import { EvaluateTimer } from '@/actuators/trigger-evaluate-timer'
 import { RotateRotations } from "@/actuators/rotation-rotate";

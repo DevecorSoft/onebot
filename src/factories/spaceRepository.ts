@@ -1,3 +1,3 @@
-import { createSpaceRepository, SpaceRepository } from '@/repositories'
+import { createSpaceRepository, SpaceRepository } from '@/script-properties'
 
 export const spaceRepository: SpaceRepository = createSpaceRepository({ propertiesService: PropertiesService })

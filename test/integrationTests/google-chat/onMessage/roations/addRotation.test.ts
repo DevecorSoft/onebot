@@ -1,5 +1,5 @@
-import { MessageEvent, receiveMessageEventHandler } from '@/handlers'
-import { SpaceStorage } from '@/repositories'
+import { MessageEvent, receiveMessageEventHandler } from '@/google-chat'
+import { SpaceStorage } from '@/script-properties'
 
 describe('Given user types add rotation command on gchat', () => {
   describe('When user types title, timer and participants', () => {

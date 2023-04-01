@@ -7,7 +7,7 @@ fs.writeFileSync('./dist/a_ServiceAccountCredentials.js', credentials)
 
 require('esbuild')
   .build({
-    entryPoints: ['src/index.ts'],
+    entryPoints: ['src/google-chat/index.ts'],
     format: 'esm',
     bundle: true,
     treeShaking: false,

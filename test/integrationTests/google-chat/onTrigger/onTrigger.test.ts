@@ -1,5 +1,5 @@
-import { timeDrivenTriggerEventHandler } from '@/handlers/TimeDrivenTriggerEventHandler'
-import { RotationItem } from '@/repositories'
+import { timeDrivenTriggerEventHandler } from '@/google-chat/TimeDrivenTriggerEventHandler'
+import { RotationItem } from '@/script-properties'
 
 describe('Given user added one bot chat bot to his space', () => {
   describe('When the bot triggered by a time-driven trigger', () => {

@@ -1,4 +1,4 @@
-import { createSpaceRepository, Deps } from '@/repositories'
+import { createSpaceRepository, Deps } from '@/script-properties'
 
 describe('When user add our chat bot to his space', () => {
   it('Then should record his space name', () => {
@@ -61,7 +61,7 @@ describe('Given chat bot is triggered by time-driven trigger', () => {
           }),
         },
       }
-  
+
       const spaceRepository = createSpaceRepository(deps)
       const spaces = spaceRepository.get()
 

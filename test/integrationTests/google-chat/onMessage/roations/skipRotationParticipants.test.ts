@@ -1,5 +1,5 @@
-import { MessageEvent, receiveMessageEventHandler } from '@/handlers'
-import { RotationItem } from '@/repositories'
+import { MessageEvent, receiveMessageEventHandler } from '@/google-chat'
+import { RotationItem } from '@/script-properties'
 
 describe('Given user have rotations added', () => {
   describe('When user want to adjust specific rotation by skip subcommand', () => {

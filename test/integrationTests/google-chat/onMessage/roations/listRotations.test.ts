@@ -1,5 +1,5 @@
-import { MessageEvent, receiveMessageEventHandler } from '@/handlers'
-import { RotationItem } from '@/repositories'
+import { MessageEvent, receiveMessageEventHandler } from '@/google-chat'
+import { RotationItem } from '@/script-properties'
 
 describe('Given user try to check how many rotation exists', () => {
   describe('When user types "/onebot rotations"', () => {

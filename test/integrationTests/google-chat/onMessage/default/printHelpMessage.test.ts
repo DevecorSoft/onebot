@@ -1,5 +1,5 @@
-import { MessageEvent, receiveMessageEventHandler } from '@/handlers'
-import { HELP_MSG } from '@/handlers/helpMsg'
+import { MessageEvent, receiveMessageEventHandler } from '@/google-chat'
+import { HELP_MSG } from '@/google-chat/helpMsg'
 
 describe('Given user has added the chat bot in their space', () => {
   describe("When user types only '/onebot' on gchat", () => {
