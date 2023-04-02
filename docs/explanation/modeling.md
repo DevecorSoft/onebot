@@ -2,7 +2,7 @@
 
 ```mermaid
 classDiagram
-  space "*" --* "1" chatApp
+  space "*" --o "1" chatApp
   thread "*" --* "1" space
   member "*" --o "1" space
   member "*" --o "1" thread

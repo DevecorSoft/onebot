@@ -15,8 +15,9 @@
     "baseUrl": "./",
     "lib": ["es6"],
     "paths": {
-      "@/*": ["src/*"],
-    }
+      "@/*": ["src/*"]
+    },
+    "esModuleInterop": true
   },
   "include": ["./src/**/*", "./test/**/*"]
 }
