@@ -39,7 +39,7 @@ module.exports = {
       },
     },
     {
-      files: ['./src/google-chat/app.ts'],
+      files: ['./src/google-chat/app.ts', './src/script-endpoints/index.ts'],
       rules: {
         '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/no-unsafe-argument': 'off'

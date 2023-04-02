@@ -1,5 +1,8 @@
 import { server } from './server'
 import axios from 'axios'
+import fs from 'fs'
+import { storage } from '@/feishu/persistentce'
+import { propertyName } from '@/script-properties'
 
 describe('post client', () => {
   it('200', (done) => {
@@ -13,11 +16,15 @@ describe('post client', () => {
         expect(res.data).toEqual({
           challenge: 'ajls384kdjx98XX'
         })
+        expect(storage.getScriptProperties().getProperty(propertyName)).not.toEqual('')
         done()
       }
     ).catch(
       (err) => done(err)
     )
   })
-  afterAll(() => server.close())
+  afterAll((done) => {
+    server.close()
+    fs.rm('./.storage', { recursive: true, force: true }, () => done())
+  })
 })
