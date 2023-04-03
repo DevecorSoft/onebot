@@ -1,6 +1,8 @@
 import fs from 'fs'
+import process from 'process'
 
-const storageDir = './.storage'
+// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+const storageDir = `${process.env.HOME}/.onebot/storage`
 fs.existsSync(storageDir) || fs.mkdirSync(storageDir)
 export const storage: PropertiesService = {
   getScriptProperties: () => ({
