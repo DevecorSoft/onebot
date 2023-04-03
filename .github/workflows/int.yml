@@ -46,6 +46,18 @@ jobs:
         with:
           current: ${{ steps.read_current_version.outputs.version }}
 
+      - name: Build docker image for feishu
+        run: |
+          yarn build:feishu
+          cd src/feishu
+          docker build -t ghcr.io/devecorsoft/onebot:${{ steps.read_current_version.outputs.version }}-for-feishu .
+
+      - name: Publish to github
+        run: |
+          docker login ghcr.io -u devecor -p ${{ secrets.GITHUB_TOKEN }}
+          docker push ghcr.io/devecorsoft/onebot:${{ steps.read_current_version.outputs.version }}-for-feishu
+          docker logout ghcr.io
+
   integrate:
     needs: ["build"]
     runs-on: ubuntu-latest

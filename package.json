@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "build": "node .esbuild.js",
+    "build:feishu": "cd src/feishu && node .esbuild.js",
     "push": "yarn build && npx clasp push",
     "jest": "jest --forceExit --no-cache --coverage --detectOpenHandles",
     "lint": "eslint --ext .js,.ts src test",
