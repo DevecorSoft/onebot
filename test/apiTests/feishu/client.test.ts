@@ -1,7 +1,7 @@
 import { server } from './server'
 import axios from 'axios'
 import fs from 'fs'
-import { storage } from '@/feishu/persistentce'
+import { storage, storageDir } from '@/feishu/persistentce'
 import { propertyName } from '@/script-properties'
 
 describe('post client', () => {
@@ -25,6 +25,6 @@ describe('post client', () => {
   })
   afterAll((done) => {
     server.close()
-    fs.rm('./.storage', { recursive: true, force: true }, () => done())
+    fs.rm(storageDir, { recursive: true, force: true }, () => done())
   })
 })
