@@ -18,7 +18,7 @@ process.on('SIGTERM', () => {
 })
 log('feishu adapter is avaliable on http://localhost:3333')
 
-axios.defaults.baseURL = 'http://localhost:3333'
+axios.defaults.baseURL = 'http://localhost:3333/api/v1/feishu'
 axios.interceptors.request.use(request => {
   log('Starting Request: %s %s%s', request.method, request.baseURL, request.url)
   log('Request Headers: ', request.headers)

@@ -5,4 +5,4 @@ import { storage } from '@/feishu/persistentce'
 
 export const app = express()
 app.use(express.json())
-app.use(client(createClientRepository({ propertiesService: storage })))
+app.use('/api/v1/feishu', client(createClientRepository({ propertiesService: storage })))
