@@ -101,3 +101,40 @@ jobs:
           rm .clasp.json
           rm ~/.clasprc.json
           rm serviceAccountCredentials.json
+
+  deploy-feishu:
+    needs: ["build"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: 'yarn'
+
+      - name: Install
+        run: yarn install
+
+      - name: Install ssh-key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_ed25519
+          ssh-keyscan -H "staging.devecor.cn" >> ~/.ssh/known_hosts
+
+      - name: Deploy
+        continue-on-error: true
+        run: |
+          ssh ubuntu@staging.devecor.cn '
+            docker login ghcr.io -u devecor -p ${{ secrets.GITHUB_TOKEN }};
+            docker run -d --rm -v $HOME/.onebot:/root/.onebot -p 3000:3000 --name onebot ghcr.io/devecorsoft/onebot:${{ needs.build.outputs.version }}-for-feishu;
+            docker logout ghcr.io;
+          '
+
+      - name: Delete ssh-key
+        run: rm ~/.ssh/id_ed25519
