@@ -693,6 +693,18 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@larksuiteoapi/node-sdk@^1.14.0":
+  version "1.14.0"
+  resolved "https://registry.npmmirror.com/@larksuiteoapi/node-sdk/-/node-sdk-1.14.0.tgz#312e8232cd88495544a6c2ce887a887eee891ec5"
+  integrity sha512-dn+jPhCY1Xwa41gPvo6Rd6W2M6T3Oegjgpxm7ptvPfv/Uhj8AaC+igiTz1QgKCigmRpNuNL9oRmhOWLWRcQrig==
+  dependencies:
+    axios ">=0.27.0 <1.0.0"
+    lodash.get "^4.4.2"
+    lodash.identity "^3.0.0"
+    lodash.merge "^4.6.2"
+    lodash.pick "^4.4.0"
+    lodash.pickby "^4.6.0"
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmmirror.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -1360,6 +1372,14 @@ axios@*, axios@^1.3.4:
     follow-redirects "^1.15.0"
     form-data "^4.0.0"
     proxy-from-env "^1.1.0"
+
+"axios@>=0.27.0 <1.0.0":
+  version "0.27.2"
+  resolved "https://registry.npmmirror.com/axios/-/axios-0.27.2.tgz#207658cc8621606e586c85db4b41a750e756d972"
+  integrity sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==
+  dependencies:
+    follow-redirects "^1.14.9"
+    form-data "^4.0.0"
 
 babel-jest@^29.5.0:
   version "29.5.0"
@@ -2770,7 +2790,7 @@ flatted@^3.1.0:
   resolved "https://registry.npmmirror.com/flatted/-/flatted-3.2.7.tgz#609f39207cb614b89d0765b477cb2d437fbf9787"
   integrity sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==
 
-follow-redirects@^1.15.0:
+follow-redirects@^1.14.9, follow-redirects@^1.15.0:
   version "1.15.2"
   resolved "https://registry.npmmirror.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
@@ -2801,7 +2821,7 @@ forwarded@0.2.0:
   resolved "https://registry.npmmirror.com/forwarded/-/forwarded-0.2.0.tgz#2269936428aad4c15c7ebe9779a84bf0b2a81811"
   integrity sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==
 
-fp-ts@^2.12.3:
+fp-ts@^2.13.1:
   version "2.13.1"
   resolved "https://registry.npmmirror.com/fp-ts/-/fp-ts-2.13.1.tgz#1bf2b24136cca154846af16752dc29e8fa506f2a"
   integrity sha512-0eu5ULPS2c/jsa1lGFneEFFEdTbembJv8e4QKXeVJ3lm/5hyve06dlKZrpxmMwJt6rYen7sxmHHK2CLaXvWuWQ==
@@ -3304,6 +3324,11 @@ internal-slot@^1.0.5:
     get-intrinsic "^1.2.0"
     has "^1.0.3"
     side-channel "^1.0.4"
+
+io-ts@^2.2.20:
+  version "2.2.20"
+  resolved "https://registry.npmmirror.com/io-ts/-/io-ts-2.2.20.tgz#be42b75f6668a2c44f706f72ee6e4c906777c7f5"
+  integrity sha512-Rq2BsYmtwS5vVttie4rqrOCIfHCS9TgpRLFpKQCM1wZBBRY9nWVGmEvm2FnDbSE2un1UE39DvFpTR5UL47YDcA==
 
 ipaddr.js@1.9.1:
   version "1.9.1"
@@ -4281,6 +4306,16 @@ locate-path@^7.1.0:
   dependencies:
     p-locate "^6.0.0"
 
+lodash.get@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.npmmirror.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
+  integrity sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==
+
+lodash.identity@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmmirror.com/lodash.identity/-/lodash.identity-3.0.0.tgz#ad7bc6a4e647d79c972e1b80feef7af156267876"
+  integrity sha512-AupTIzdLQxJS5wIYUQlgGyk2XRTfGXA+MCghDHqZk0pzUNYvd3EESS6dkChNauNYVIutcb0dfHw1ri9Q1yPV8Q==
+
 lodash.memoize@4.x:
   version "4.1.2"
   resolved "https://registry.npmmirror.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
@@ -4290,6 +4325,16 @@ lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.npmmirror.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
+
+lodash.pick@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.npmmirror.com/lodash.pick/-/lodash.pick-4.4.0.tgz#52f05610fff9ded422611441ed1fc123a03001b3"
+  integrity sha512-hXt6Ul/5yWjfklSGvLQl8vM//l3FtyHZeuelpzK6mm99pNvN9yTDruNZPEJZD1oWrqo+izBmB7oUfWgcCX7s4Q==
+
+lodash.pickby@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.npmmirror.com/lodash.pickby/-/lodash.pickby-4.6.0.tgz#7dea21d8c18d7703a27c704c15d3b84a67e33aff"
+  integrity sha512-AZV+GsS/6ckvPOVQPXSiFFacKvKB4kOQu6ynt9wz0F3LO4R9Ij4K1ddYsIytDpSgLz88JHd9P+oaLeej5/Sl7Q==
 
 lodash@^4.17.21:
   version "4.17.21"

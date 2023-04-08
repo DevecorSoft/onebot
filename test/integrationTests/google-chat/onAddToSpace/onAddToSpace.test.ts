@@ -1,7 +1,7 @@
 import { addToSpaceEventHandler, SpaceEvent } from '@/google-chat'
 
 beforeEach(() => {
-  PropertiesService.getScriptProperties().setProperty('trigger_list', '')
+  PropertiesService.getScriptProperties().setProperty('spaces', '')
 })
 
 describe('Given user add the chat bot', () => {
@@ -12,7 +12,7 @@ describe('Given user add the chat bot', () => {
 
     it('Then should return a greeting as response', () => {
       const greetingMsg = addToSpaceEventHandler(event)
-      const spaceNames = JSON.parse(PropertiesService.getScriptProperties().getProperty('trigger_list') || '[]') as string[]
+      const spaceNames = JSON.parse(PropertiesService.getScriptProperties().getProperty('spaces') || '[]') as string[]
 
       expect(greetingMsg).toEqual({ text: 'Hi! Thanks for adding me! Use /onebot to see the helps.' })
       expect(spaceNames).toEqual(['spaces/cccceXRaJGE'])

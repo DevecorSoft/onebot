@@ -1,8 +1,8 @@
-import { SpaceRepository } from '@/script-properties/spaceRepository'
+import { LegacySpaceRepository } from '@/script-properties/legacySpaceRepository'
 import { Actable } from '@/actuators/iocActuator'
 
 export interface AddSpaceDeps {
-  readonly spaceRepository: Pick<SpaceRepository, 'push'>
+  readonly spaceRepository: Pick<LegacySpaceRepository, 'push'>
 }
 
 export interface AddSpace {

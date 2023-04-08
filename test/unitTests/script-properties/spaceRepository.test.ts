@@ -1,4 +1,4 @@
-import { createSpaceRepository, Deps } from '@/script-properties'
+import { createLegacySpaceRepository, Deps } from '@/script-properties'
 
 describe('When user add our chat bot to his space', () => {
   it('Then should record his space name', () => {
@@ -14,13 +14,13 @@ describe('When user add our chat bot to his space', () => {
     }
     const spaceName = 'spaces/cjdeeXRaJGE'
 
-    const spaceRepository = createSpaceRepository(deps)
+    const spaceRepository = createLegacySpaceRepository(deps)
     spaceRepository.push(spaceName)
 
     expect(fakeGetProperty).toBeCalledTimes(1)
-    expect(fakeGetProperty).toBeCalledWith('trigger_list')
+    expect(fakeGetProperty).toBeCalledWith('spaces')
     expect(fakeSetProperty).toBeCalledTimes(1)
-    expect(fakeSetProperty).toBeCalledWith('trigger_list', JSON.stringify(['spaces/cnnnnXRaJGE', spaceName]))
+    expect(fakeSetProperty).toBeCalledWith('spaces', JSON.stringify(['spaces/cnnnnXRaJGE', spaceName]))
   })
 })
 
@@ -38,13 +38,13 @@ describe('When user remove my chat bot from his space', () => {
     }
     const spaceName = 'spaces/cjdeeXRaJGE'
 
-    const spaceRepository = createSpaceRepository(deps)
+    const spaceRepository = createLegacySpaceRepository(deps)
     spaceRepository.remove(spaceName)
 
     expect(fakeGetProperty).toBeCalledTimes(1)
-    expect(fakeGetProperty).toBeCalledWith('trigger_list')
+    expect(fakeGetProperty).toBeCalledWith('spaces')
     expect(fakeSetProperty).toBeCalledTimes(1)
-    expect(fakeSetProperty).toBeCalledWith('trigger_list', JSON.stringify(['spaces/cnnnnXRaJGE']))
+    expect(fakeSetProperty).toBeCalledWith('spaces', JSON.stringify(['spaces/cnnnnXRaJGE']))
   })
 })
 
@@ -62,7 +62,7 @@ describe('Given chat bot is triggered by time-driven trigger', () => {
         },
       }
 
-      const spaceRepository = createSpaceRepository(deps)
+      const spaceRepository = createLegacySpaceRepository(deps)
       const spaces = spaceRepository.get()
 
       expect(spaces).toEqual(['spaces/cnnnnXRaJGE', 'test space'])

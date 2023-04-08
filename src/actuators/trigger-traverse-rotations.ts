@@ -1,11 +1,11 @@
 import { Actable, Actuator } from '@/actuators/iocActuator'
-import { RotationRepository, SpaceRepository } from '@/script-properties'
+import { RotationRepository, LegacySpaceRepository } from '@/script-properties'
 import { PostMessage } from '@/actuators/trigger-post-message'
 import { EvaluateTimer } from '@/actuators/trigger-evaluate-timer'
 import { RotateRotations } from "@/actuators/rotation-rotate";
 
 export interface TraverseRotationsDeps {
-  readonly spaceRepository: Pick<SpaceRepository, 'get'>
+  readonly spaceRepository: Pick<LegacySpaceRepository, 'get'>
   readonly rotationRepository: Pick<RotationRepository, 'get'>
   readonly evaluateTimerActuator: Actuator<EvaluateTimer>
   readonly postMessageActuator: Actuator<PostMessage>

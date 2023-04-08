@@ -1,11 +1,13 @@
 import { server } from './server'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import fs from 'fs'
 import { storage, storageDir } from '@/feishu/persistentce'
-import { propertyName } from '@/script-properties'
+import { clientPropertyName } from '@/script-properties'
+import { FeishuPayload } from '@/feishu/resources'
+import { spacePropertyName } from '@/script-properties/spaceRepository'
 
 describe('post client', () => {
-  it('200', (done) => {
+  it('able to register a bot by feishu', (done) => {
     axios.post<{ challenge: string }>('/client', {
       challenge: 'ajls384kdjx98XX',
       token: 'xxxxxx',
@@ -16,13 +18,38 @@ describe('post client', () => {
         expect(res.data).toEqual({
           challenge: 'ajls384kdjx98XX'
         })
-        expect(storage.getScriptProperties().getProperty(propertyName)).not.toEqual('')
+        expect(storage.getScriptProperties().getProperty(clientPropertyName)).not.toEqual('')
         done()
       }
     ).catch(
       (err) => done(err)
     )
   })
+
+  it('able to receive bot added event', (done) => {
+    axios.post<undefined, AxiosResponse<Record<string, never>>, FeishuPayload>('/client', {
+      schema: '',
+      header: {
+        event_id: 'event-id-1',
+        token: 'event-token',
+        event_type: 'im.chat.member.bot.added_v1',
+        create_time: null,
+        tenant_key: null,
+        app_id: null,
+      },
+      event: {
+        chat_id: 'sfewcvfef',
+        name: 'onechat group'
+      }
+    })
+      .then((data) => {
+        expect(data.status).toEqual(200)
+        expect(storage.getScriptProperties().getProperty(spacePropertyName)).not.toBeNull()
+        done()
+      })
+      .catch((err) => done(err))
+  })
+
   afterAll((done) => {
     server.close()
     fs.rm(storageDir, { recursive: true, force: true }, () => done())

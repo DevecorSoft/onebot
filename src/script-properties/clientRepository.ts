@@ -1,23 +1,24 @@
-import { Client, PersistentClient } from '@/feishu/resources'
 import { Deps } from './deps'
+import { Client } from '@/feishu/model'
+import { Repository } from '@/common'
 
-export const propertyName = 'PersistentClient'
+export const clientPropertyName = 'PersistentClient'
 
 type ClientProperties = Record<string, Client>
 
-export const createClientRepository: (deps: Deps) => PersistentClient = ({ propertiesService }) => {
+export const createClientRepository: (deps: Deps) => Repository<Client> = ({ propertiesService }) => {
   const properties = propertiesService.getScriptProperties()
 
   function clientProperties(): ClientProperties | null {
-    return JSON.parse(properties.getProperty(propertyName) ?? 'null') as ClientProperties | null
+    return JSON.parse(properties.getProperty(clientPropertyName) ?? 'null') as ClientProperties | null
   }
 
   return {
-    add: (client) => {
+    create: (client) => {
       const clients = clientProperties()
-      properties.setProperty(propertyName, JSON.stringify({...clients, [client.id]: client}))
+      properties.setProperty(clientPropertyName, JSON.stringify({...clients, [client.id]: client}))
     },
-    get: (id) => {
+    get: (id: string) => {
       const clients = clientProperties() ?? {}
       return clients[id] ?? null
     }

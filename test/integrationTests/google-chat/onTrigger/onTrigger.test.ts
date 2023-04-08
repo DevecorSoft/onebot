@@ -11,7 +11,7 @@ describe('Given user added one bot chat bot to his space', () => {
         participants: 'Jon A, Someone B, Devecor C'.split(', '),
         thread: 'spaces/AAABaxOMxU/threads/I--cu_wca78',
       }
-      PropertiesService.getScriptProperties().setProperty('trigger_list', JSON.stringify(['spaces/ONSEsbxOMxU', 'spaces/AAVsbebbbxU']))
+      PropertiesService.getScriptProperties().setProperty('spaces', JSON.stringify(['spaces/ONSEsbxOMxU', 'spaces/AAVsbebbbxU']))
       PropertiesService.getScriptProperties().setProperty('spaces/AAVsbebbbxU', JSON.stringify({ rotations: [rotation_item] }))
       timeDrivenTriggerEventHandler()
     })

@@ -1,14 +1,20 @@
 import { Router } from 'express'
 import { post } from './client'
-import { PersistentClient } from '@/feishu/resources/client/type'
 import { randomUUID } from 'crypto'
+import { ClientDomain } from '@/feishu/domain'
+import { SpaceDomain } from '@/domain'
 
 const router = Router()
 
-export const client = (persistence: PersistentClient) => {
+export interface ClientDeps {
+  readonly client: ClientDomain
+  readonly space: SpaceDomain
+}
+
+export const client = (deps: ClientDeps) => {
   router.post('/client', post({
-    ...persistence,
-    uuid: randomUUID
+    uuid: randomUUID,
+    ...deps
   }))
   return router
 }
