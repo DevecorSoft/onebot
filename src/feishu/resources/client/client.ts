@@ -59,7 +59,7 @@ export const AddBotHandler: (deps: { space: SpaceDomain }) => Pick<EventHandles,
 
 export const ReceiveMessageHandler: () => Pick<EventHandles, 'im.message.receive_v1'> = () => ({
   'im.message.receive_v1': (data) => {
-    const content = JSON.parse(data.message.content)
+    const content = JSON.parse(data.message.content) as unknown
     console.log(content)
   }
 })
