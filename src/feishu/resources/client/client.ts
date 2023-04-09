@@ -69,7 +69,9 @@ export const ReceiveMessageHandler: (feishuClient: Client) => Pick<EventHandles,
       data: {
         receive_id: data.message.chat_id,
         msg_type: 'text',
-        content: 'text message'
+        content: JSON.stringify({
+          text: 'test message'
+        })
       }
     })
       .then(() => console.info(`reply message ${data.message.message_id} succeed`))
