@@ -5,6 +5,7 @@ import { isRight, match } from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { SpaceDomain } from '@/domain'
 import { ClientDomain } from '@/feishu/domain'
+import { filter, reduce } from 'fp-ts/Array'
 
 export interface ClientDeps {
   uuid: () => string,
@@ -29,7 +30,9 @@ type Payload = UrlVerificationPayload | FeishuPayload
 export const post: (deps: ClientDeps) => RequestHandler<Record<string, never>, { challenge?: string }, Payload> =
   (deps) =>
     (req, res) => {
-      [req.body].filter((payload) => pipe(
+      pipe(
+        [req.body],
+        filter((payload) => pipe(
           payload,
           UrlVerificationPayload.decode,
           match(
@@ -42,8 +45,8 @@ export const post: (deps: ClientDeps) => RequestHandler<Record<string, never>, {
               return false
             }
           )
-        )
-      ).reduce<{header: FeishuPayloadHeader, event: Record<string, unknown>}[]>((_, payload) => pipe(
+        )),
+        reduce<Payload, { header: FeishuPayloadHeader, event: Record<string, unknown> }[]>([], (_, payload) => pipe(
           payload,
           FeishuPayload.decode,
           (payload) => {
@@ -54,26 +57,25 @@ export const post: (deps: ClientDeps) => RequestHandler<Record<string, never>, {
               return []
             }
           }
-        ),
-        []
-      ).filter((payload) => {
-        pipe(
-          payload.event,
-          BotEvent.decode,
-          match(
-            () => true,
-            (botEvent) => {
-              if (payload.header.event_type === 'im.chat.member.bot.added_v1') {
-                deps.space.add({
-                  id: botEvent.chat_id,
-                  chatIdentity: 'feishu',
-                  spaceIdentity: botEvent
-                })
-                res.sendStatus(200)
+        )),
+        filter((payload) => pipe(
+            payload.event,
+            BotEvent.decode,
+            match(
+              () => true,
+              (botEvent) => {
+                if (payload.header.event_type === 'im.chat.member.bot.added_v1') {
+                  deps.space.add({
+                    id: botEvent.chat_id,
+                    chatIdentity: 'feishu',
+                    spaceIdentity: botEvent
+                  })
+                  res.sendStatus(200)
+                }
+                return false
               }
-              return false
-            }
+            )
           )
         )
-      })
+      )
     }
