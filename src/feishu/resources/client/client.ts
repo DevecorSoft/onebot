@@ -4,7 +4,7 @@ import { match } from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { SpaceDomain } from '@/domain'
 import { ClientDomain } from '@/feishu/domain'
-import { EventHandles } from '@larksuiteoapi/node-sdk'
+import { Client, EventHandles } from '@larksuiteoapi/node-sdk'
 
 export interface ClientDeps {
   uuid: () => string,
@@ -57,9 +57,22 @@ export const AddBotHandler: (deps: { space: SpaceDomain }) => Pick<EventHandles,
   }
 })
 
-export const ReceiveMessageHandler: () => Pick<EventHandles, 'im.message.receive_v1'> = () => ({
+export const ReceiveMessageHandler: (feishuClient: Client) => Pick<EventHandles, 'im.message.receive_v1'> = (feishuClient) => ({
   'im.message.receive_v1': (data) => {
+    console.info(`receive message ${data.message.message_id} succeed`)
     const content = JSON.parse(data.message.content) as unknown
     console.log(content)
+    feishuClient.im.message.create({
+      params: {
+        receive_id_type: 'chat_id',
+      },
+      data: {
+        receive_id: data.message.chat_id,
+        msg_type: 'text',
+        content: 'text message'
+      }
+    })
+      .then(() => console.info(`reply message ${data.message.message_id} succeed`))
+      .catch((err) => console.error(err))
   }
 })

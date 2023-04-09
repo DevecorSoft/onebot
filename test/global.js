@@ -1,3 +1,4 @@
+const process = require('process')
 const db = {}
 
 module.exports = {
@@ -35,3 +36,6 @@ module.exports = {
     client_id: '',
   },
 }
+
+process.env.feishu_app_id = ''
+process.env.feishu_app_secret = ''
