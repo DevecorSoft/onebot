@@ -5,6 +5,7 @@ import { ClientDomain } from '@/feishu/domain'
 import { SpaceDomain } from '@/domain'
 import * as lark from '@larksuiteoapi/node-sdk'
 import process from 'process'
+import { Client } from '@larksuiteoapi/node-sdk'
 
 const router = Router()
 
@@ -13,6 +14,7 @@ export interface ClientDeps {
   readonly space: SpaceDomain
 }
 
+let feishuClientInstance: Client | null = null
 const feishuClient = () => {
   if (
     process.env.feishu_app_id === undefined ||
@@ -20,10 +22,13 @@ const feishuClient = () => {
   ) {
     throw Error('please provide feishu bot credential')
   }
-  return new lark.Client({
-    appId: process.env.feishu_app_id,
-    appSecret: process.env.feishu_app_secret
-  })
+  if (feishuClientInstance === null) {
+    feishuClientInstance = new lark.Client({
+      appId: process.env.feishu_app_id,
+      appSecret: process.env.feishu_app_secret
+    })
+  }
+  return feishuClientInstance
 }
 
 export const client = (deps: ClientDeps) => {
@@ -37,7 +42,7 @@ export const client = (deps: ClientDeps) => {
     lark.adaptExpress(
       new lark.EventDispatcher({})
         .register({
-          ...AddBotHandler(deps),
+          ...AddBotHandler({space: deps.space, feishuClient: feishuClient()}),
           ...ReceiveMessageHandler(feishuClient())
         })
     )
