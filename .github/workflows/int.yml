@@ -42,7 +42,7 @@ jobs:
           echo "::set-output name=version::$(cat version.txt)"
 
       - name: Verify version
-        uses: devecorsoft/verify-version@v1.0.5
+        uses: devecorsoft/verify-version@v1.0.6
         with:
           current: ${{ steps.read_current_version.outputs.version }}
 
