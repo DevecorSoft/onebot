@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { AddBotHandler, post } from './client'
+import { AddBotHandler, post, ReceiveMessageHandler } from './client'
 import { randomUUID } from 'crypto'
 import { ClientDomain } from '@/feishu/domain'
 import { SpaceDomain } from '@/domain'
@@ -20,10 +20,13 @@ export const client = (deps: ClientDeps) => {
       ...deps
     }),
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    lark.adaptExpress(new lark.EventDispatcher({})
-      .register({
-        'im.chat.member.bot.added_v1': AddBotHandler(deps)
-      }))
+    lark.adaptExpress(
+      new lark.EventDispatcher({})
+        .register({
+          ...AddBotHandler(deps),
+          ...ReceiveMessageHandler()
+        })
+    )
   )
   return router
 }

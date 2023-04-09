@@ -4,6 +4,7 @@ import { match } from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { SpaceDomain } from '@/domain'
 import { ClientDomain } from '@/feishu/domain'
+import { EventHandles } from '@larksuiteoapi/node-sdk'
 
 export interface ClientDeps {
   uuid: () => string,
@@ -40,34 +41,8 @@ export const post: (deps: ClientDeps) => RequestHandler<Record<string, never>, {
       )
     }
 
-type AddBotHandler = (data: {
-  event_id?: string;
-  token?: string;
-  create_time?: string;
-  event_type?: string;
-  tenant_key?: string;
-  ts?: string;
-  uuid?: string;
-  type?: string;
-  app_id?: string;
-  chat_id?: string;
-  operator_id?: {
-    union_id?: string;
-    user_id?: string;
-    open_id?: string;
-  };
-  external?: boolean;
-  operator_tenant_key?: string;
-  name?: string;
-  i18n_names?: {
-    zh_cn?: string;
-    en_us?: string;
-    ja_jp?: string;
-  };
-}) => Promise<any> | any
-
-export const AddBotHandler: (deps: { space: SpaceDomain }) => AddBotHandler = (deps) =>
-  (data) => {
+export const AddBotHandler: (deps: { space: SpaceDomain }) => Pick<EventHandles, 'im.chat.member.bot.added_v1'> = (deps) => ({
+  'im.chat.member.bot.added_v1': (data) => {
     if (
       data.chat_id === undefined ||
       data.name === undefined
@@ -80,3 +55,11 @@ export const AddBotHandler: (deps: { space: SpaceDomain }) => AddBotHandler = (d
       spaceIdentity: {chat_id: data.chat_id, name: data.name}
     })
   }
+})
+
+export const ReceiveMessageHandler: () => Pick<EventHandles, 'im.message.receive_v1'> = () => ({
+  'im.message.receive_v1': (data) => {
+    const content = JSON.parse(data.message.content)
+    console.log(content)
+  }
+})

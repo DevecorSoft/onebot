@@ -63,7 +63,7 @@ describe('post client', () => {
       .catch((err) => done(err))
   })
 
-  it.skip('able to handle message event', (done) => {
+  it('able to handle message event', (done) => {
     axios.post<undefined, AxiosResponse<Record<string, never>>, FeishuPayload>('/client', {
       'schema': '2.0',
       'header': {
