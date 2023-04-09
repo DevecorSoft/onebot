@@ -15,16 +15,25 @@ export const BotEvent = D.struct({
   name: D.string
 })
 
+export interface UserId {
+  readonly union_id: string,
+  readonly user_id: string,
+  readonly open_id: string
+}
+
+export interface Mention {
+  key: string,
+  id: UserId,
+  name: string,
+  tenant_key: string
+}
+
 export interface MessageEvent {
-  readonly sender?: {
-    'sender_id'?: {
-      'union_id': string,
-      'user_id': string,
-      'open_id': string
-    },
+  readonly sender: {
+    'sender_id': UserId | null,
     'sender_type': 'user',
     'tenant_key': string
-  }
+  } | null
   readonly message: {
     'message_id': string,
     'root_id': string,
@@ -34,18 +43,7 @@ export interface MessageEvent {
     'chat_type': 'group',
     'message_type': 'text',
     'content': string,
-    'mentions': [
-      {
-        'key': string,
-        'id': {
-          'union_id': string,
-          'user_id': string,
-          'open_id': string
-        },
-        'name': string,
-        'tenant_key': string
-      }
-    ]
+    'mentions': Mention[]
   }
 }
 

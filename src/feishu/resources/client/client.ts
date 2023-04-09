@@ -1,15 +1,12 @@
 import { RequestHandler } from 'express'
-import { BotEvent, FeishuPayload, FeishuPayloadHeader } from './type'
 import * as D from 'io-ts/Decoder'
-import { isRight, match } from 'fp-ts/Either'
+import { match } from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { SpaceDomain } from '@/domain'
 import { ClientDomain } from '@/feishu/domain'
-import { filter, reduce } from 'fp-ts/Array'
 
 export interface ClientDeps {
   uuid: () => string,
-  space: SpaceDomain
   client: ClientDomain
 }
 
@@ -25,57 +22,61 @@ const UrlVerificationPayload = D.struct({
   type: D.literal('url_verification')
 })
 
-type Payload = UrlVerificationPayload | FeishuPayload
-
-export const post: (deps: ClientDeps) => RequestHandler<Record<string, never>, { challenge?: string }, Payload> =
+export const post: (deps: ClientDeps) => RequestHandler<Record<string, never>, { challenge?: string }, UrlVerificationPayload> =
   (deps) =>
-    (req, res) => {
+    (req, res, next) => {
       pipe(
-        [req.body],
-        filter((payload) => pipe(
-          payload,
-          UrlVerificationPayload.decode,
-          match(
-            () => true,
-            (urlVerificationPayload) => {
+        req.body,
+        UrlVerificationPayload.decode,
+        match(
+          () => next(),
+          (urlVerificationPayload) => {
 
-              const {challenge, type, token} = urlVerificationPayload
-              deps.client.add({challenge, type, token, id: deps.uuid()})
-              res.send({challenge})
-              return false
-            }
-          )
-        )),
-        reduce<Payload, { header: FeishuPayloadHeader, event: Record<string, unknown> }[]>([], (_, payload) => pipe(
-          payload,
-          FeishuPayload.decode,
-          (payload) => {
-            if (isRight(payload)) {
-              return [{header: payload.right.header, event: payload.right.event}]
-            } else {
-              res.sendStatus(400)
-              return []
-            }
+            const {challenge, type, token} = urlVerificationPayload
+            deps.client.add({challenge, type, token, id: deps.uuid()})
+            res.send({challenge})
           }
-        )),
-        filter((payload) => pipe(
-            payload.event,
-            BotEvent.decode,
-            match(
-              () => true,
-              (botEvent) => {
-                if (payload.header.event_type === 'im.chat.member.bot.added_v1') {
-                  deps.space.add({
-                    id: botEvent.chat_id,
-                    chatIdentity: 'feishu',
-                    spaceIdentity: botEvent
-                  })
-                  res.sendStatus(200)
-                }
-                return false
-              }
-            )
-          )
         )
       )
     }
+
+type AddBotHandler = (data: {
+  event_id?: string;
+  token?: string;
+  create_time?: string;
+  event_type?: string;
+  tenant_key?: string;
+  ts?: string;
+  uuid?: string;
+  type?: string;
+  app_id?: string;
+  chat_id?: string;
+  operator_id?: {
+    union_id?: string;
+    user_id?: string;
+    open_id?: string;
+  };
+  external?: boolean;
+  operator_tenant_key?: string;
+  name?: string;
+  i18n_names?: {
+    zh_cn?: string;
+    en_us?: string;
+    ja_jp?: string;
+  };
+}) => Promise<any> | any
+
+export const AddBotHandler: (deps: { space: SpaceDomain }) => AddBotHandler = (deps) =>
+  (data) => {
+    if (
+      data.chat_id === undefined ||
+      data.name === undefined
+    ) {
+      return
+    }
+    deps.space.add({
+      id: data.chat_id,
+      chatIdentity: 'feishu',
+      spaceIdentity: {chat_id: data.chat_id, name: data.name}
+    })
+  }
