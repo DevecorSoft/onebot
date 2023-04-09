@@ -18,7 +18,9 @@ describe('post client', () => {
         expect(res.data).toEqual({
           challenge: 'ajls384kdjx98XX'
         })
-        expect(storage.getScriptProperties().getProperty(clientPropertyName)).not.toEqual('')
+        const clientProperty = storage.getScriptProperties().getProperty(clientPropertyName) ?? 'null'
+        const client = JSON.parse(clientProperty) as Record<string, unknown>
+        expect(Object.keys(client)).toHaveLength(1)
         done()
       }
     ).catch(
@@ -27,6 +29,8 @@ describe('post client', () => {
   })
 
   it('able to receive bot added event', (done) => {
+    const chatId = 'sfewcvfef'
+    const group = 'onechat group'
     axios.post<undefined, AxiosResponse<Record<string, never>>, FeishuPayload>('/client', {
       schema: '',
       header: {
@@ -38,13 +42,22 @@ describe('post client', () => {
         app_id: null,
       },
       event: {
-        chat_id: 'sfewcvfef',
-        name: 'onechat group'
+        chat_id: chatId,
+        name: group
       }
     })
       .then((data) => {
         expect(data.status).toEqual(200)
-        expect(storage.getScriptProperties().getProperty(spacePropertyName)).not.toBeNull()
+        expect(storage.getScriptProperties().getProperty(spacePropertyName)).toEqual(JSON.stringify({
+          [chatId]: {
+            id: chatId,
+            chatIdentity: 'feishu',
+            spaceIdentity: {
+              chat_id: chatId,
+              name: group
+            }
+          }
+        }))
         done()
       })
       .catch((err) => done(err))
