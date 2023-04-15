@@ -5,7 +5,7 @@ import { randomUUID } from 'crypto'
 global.PropertiesService = storage
 // @ts-ignore
 global.Utilities = {
-  getUuid: randomUUID()
+  getUuid: randomUUID
 }
 // @ts-ignore
 global.OAuth2 = {}
