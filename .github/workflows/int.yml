@@ -133,7 +133,8 @@ jobs:
           ssh ubuntu@staging.devecor.cn '
             docker login ghcr.io -u devecor -p ${{ secrets.GITHUB_TOKEN }};
             docker stop onebot;
-            docker run -d --rm -v $HOME/.onebot:/root/.onebot -p 3000:3000 --name onebot --env-file $HOME/.onebot/credential-test ghcr.io/devecorsoft/onebot:${{ needs.build.outputs.version }}-for-feishu;
+            docker rm onebot;
+            docker run -d -v $HOME/.onebot:/root/.onebot -p 3000:3000 --name onebot --env-file $HOME/.onebot/credential-test ghcr.io/devecorsoft/onebot:${{ needs.build.outputs.version }}-for-feishu;
             docker logout ghcr.io;
           '
 
