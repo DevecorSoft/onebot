@@ -6,6 +6,7 @@ import { SpaceDomain } from '@/domain'
 import * as lark from '@larksuiteoapi/node-sdk'
 import process from 'process'
 import { Client } from '@larksuiteoapi/node-sdk'
+import { tick } from '@/coreApi/rotation'
 
 const router = Router()
 
@@ -15,6 +16,7 @@ export interface ClientDeps {
 }
 
 let feishuClientInstance: Client | null = null
+let nodejsTimer: number | null
 const feishuClient = () => {
   if (
     process.env.feishu_app_id === undefined ||
@@ -27,6 +29,23 @@ const feishuClient = () => {
       appId: process.env.feishu_app_id,
       appSecret: process.env.feishu_app_secret
     })
+  }
+  if (nodejsTimer === null) {
+    setInterval(() => {
+      tick({
+        act: (message, spaceName) => {
+          feishuClientInstance?.im.message.create({
+            params: { receive_id_type: 'chat_id' },
+            data: {
+              receive_id: spaceName,
+              msg_type: 'text',
+              content: JSON.stringify({ text: message })
+            }
+          }).then(() => console.info(`post message succeed`))
+            .catch((err) => console.error(err))
+        }
+    })
+    }, 1000 * 3600)
   }
   return feishuClientInstance
 }
