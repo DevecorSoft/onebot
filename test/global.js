@@ -1,6 +1,11 @@
 const process = require('process')
 const db = {}
 
+global.setInterval = () => {
+  console.log('stubbed setInterval')
+  return 0
+}
+
 module.exports = {
   PropertiesService: {
     getScriptProperties: () => ({
