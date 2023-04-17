@@ -16,7 +16,7 @@ export interface ClientDeps {
 }
 
 let feishuClientInstance: Client | null = null
-let nodejsTimer: number | null
+let nodejsTimer: NodeJS.Timer | null
 const feishuClient = () => {
   if (
     process.env.feishu_app_id === undefined ||
@@ -31,7 +31,8 @@ const feishuClient = () => {
     })
   }
   if (nodejsTimer === null) {
-    setInterval(() => {
+    nodejsTimer = setInterval(() => {
+      console.log('tick!\n')
       tick({
         act: (message, spaceName) => {
           feishuClientInstance?.im.message.create({
@@ -46,6 +47,7 @@ const feishuClient = () => {
         }
     })
     }, 1000 * 3600)
+    console.log('interval number: ', nodejsTimer, '\n')
   }
   return feishuClientInstance
 }
