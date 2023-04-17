@@ -16,7 +16,7 @@ export interface ClientDeps {
 }
 
 let feishuClientInstance: Client | null = null
-let nodejsTimer: NodeJS.Timer | null
+let nodejsTimer: NodeJS.Timer | null = null
 const feishuClient = () => {
   if (
     process.env.feishu_app_id === undefined ||
