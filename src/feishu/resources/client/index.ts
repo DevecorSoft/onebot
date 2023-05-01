@@ -45,7 +45,7 @@ const feishuClient = () => {
           }).then(() => console.info(`post message succeed`))
             .catch((err) => console.error(err))
         }
-    })
+    }).act()
     }, 1000 * 3600)
     console.log('interval number: ', nodejsTimer, '\n')
   }
