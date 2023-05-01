@@ -32,7 +32,7 @@ const feishuClient = () => {
   }
   if (nodejsTimer === null) {
     nodejsTimer = setInterval(() => {
-      console.log('tick!\n')
+      console.log('%stick!\n', new Date().toISOString())
       tick({
         act: (message, spaceName) => {
           feishuClientInstance?.im.message.create({
@@ -46,7 +46,7 @@ const feishuClient = () => {
             .catch((err) => console.error(err))
         }
     }).act()
-    }, 100 * 3600)
+    }, 1000 * 3600)
   }
   return feishuClientInstance
 }
