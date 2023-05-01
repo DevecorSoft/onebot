@@ -1,9 +1,9 @@
 # Onebot 💯
 
-![Statements](https://img.shields.io/badge/statements-92.32%25-brightgreen.svg?style=flat&logo=jest)
+![Statements](https://img.shields.io/badge/statements-92.34%25-brightgreen.svg?style=flat&logo=jest)
 ![Branches](https://img.shields.io/badge/branches-64.83%25-red.svg?style=flat&logo=jest)
 ![Functions](https://img.shields.io/badge/functions-78.78%25-red.svg?style=flat&logo=jest)
-![Lines](https://img.shields.io/badge/lines-91.59%25-brightgreen.svg?style=flat&logo=jest)
+![Lines](https://img.shields.io/badge/lines-91.62%25-brightgreen.svg?style=flat&logo=jest)
 
 ## Execution 🚀
 

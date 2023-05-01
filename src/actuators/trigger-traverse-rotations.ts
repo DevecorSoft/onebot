@@ -17,6 +17,7 @@ export interface TraverseRotations {
 }
 
 export const traverseRotations: Actable<TraverseRotationsDeps, TraverseRotations> = function () {
+  console.log('traverseRotations: ', this)
   this.spaceRepository.get().forEach((spaceName) => {
     this.rotationRepository.get(spaceName).forEach((item) => {
       if (this.evaluateTimerActuator.act(item.timer, new Date())) {

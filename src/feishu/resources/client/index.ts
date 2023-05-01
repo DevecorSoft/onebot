@@ -46,7 +46,7 @@ const feishuClient = () => {
             .catch((err) => console.error(err))
         }
     }).act()
-    }, 1000 * 3600)
+    }, 100 * 3600)
     console.log('interval number: ', nodejsTimer, '\n')
   }
   return feishuClientInstance
